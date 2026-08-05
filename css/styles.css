@@ -37,3 +37,141 @@
     src: url('../fonts/fira-sans-400.woff2') format('woff2'),
     url('../fonts/fira-sans-400.woff') format('woff');
 }
+
+
+/* =========================================
+   ТОКЕНЫ
+   ========================================= */
+
+:root {
+    /* Typography */
+    --font-display: 'Montserrat', sans-serif;
+    --font-body: 'Fira Sans', sans-serif;
+
+    /* Color Primitive */
+    --dark-400: #28293D;
+    --dark-300: #363A47;
+    --dark-200: #6D778B;
+    --dark-100: #A8B1B7;
+    --field-200: #F1F3F9;
+    --field-100: #F9FBFF;
+    --light-100: #FFFFFF;
+    --accent-primary: #DA1F2A;
+    --accent-primary-darker: #BC1B24;
+    --accent-primary-action: #C53038;
+    --accent-primary-fade: #EA8D93;
+    --accent-secondary: #1390DF;
+
+    /*Color Functional*/
+    --color-bg-page: var(--field-100);
+    --color-bg-cover: var(--field-200);
+    --color-bg-cta: var(--field-200);
+    --color-bg-motivation-card: var(--field-200);
+    --color-bg-faq-card: var(--field-100);
+    --color-bg-faq-arrow: var(--dark-200);
+    --color-bg-page-button-default: var(--accent-primary);
+    --color-bg-page-button-hover: var(--accent-primary-darker);
+    --color-bg-page-button-active: var(--accent-primary-action);
+    --color-bg-page-button-focus: var(--accent-primary-action);
+    --color-bg-modal-button-close: var(--dark-100);
+
+    --color-font-title: var(--dark-300);
+    --color-font-description: var(--dark-300);
+    --color-font-button: var(--light-100);
+    --color-font-link: var(--accent-secondary);
+
+    --color-border-button-focus: var(--accent-primary-fade);
+
+    --color-overlay-page-modal-mobiile: color-mix(in srgb, var(--dark-300) 90%, transparent);
+    --color-overlay-page-modal-desktop: color-mix(in srgb, var(--dark-300) 70%, transparent);
+
+    /*Shadow*/
+    --shadow-modal: 0 -8px 8px color-mix(in srgb, var(--dark-400) 80%, transparent);
+
+    /* Primitive scale — шаг 4*/
+    --unit-1:  4px;
+    --unit-2:  8px;
+    --unit-3:  12px;
+    --unit-4:  16px;
+    --unit-5:  20px;
+    --unit-6:  24px;
+    --unit-8:  32px;
+    --unit-10: 40px;
+    --unit-12: 48px;
+
+    /* Primitive scale — шаг 2*/
+    --unit-1-5: 6px;
+    --unit-2-5: 10px;
+    --unit-3-5: 14px;
+
+    /* Size */
+    --size-sm: var(--unit-6);
+    --size-md: var(--unit-10);
+    --size-lg: var(--unit-12);
+
+    /* Gap */
+    --gap-xs:  var(--unit-1);
+    --gap-sm:  var(--unit-2);
+    --gap-md:  var(--unit-3);
+    --gap-lg:  var(--unit-5);
+    --gap-xl:  var(--unit-6);
+    --gap-2xl: var(--unit-12);
+
+    /* Inner */
+    --inner-sm: var(--unit-3-5);
+    --inner-md:     var(--unit-5);
+    --inner-lg: var(--unit-2-5);
+    --inner-xl:     var(--unit-6);
+
+    /* Radius */
+    --radius-sm: var(--unit-1-5);
+    --radius-md: var(--unit-2);
+    --radius-full: 50%;
+
+    /* Container */
+    --content-min: 375px;
+    --content-max: 1032px;
+    --container-padding: var(--inner-xl);
+
+    /* Section */
+    --section-gap:        var(--gap-xl);
+    --section-title-gap:  var(--gap-md);
+
+    /* Button */
+    --button-padding: var(--inner-sm) var(--inner-lg);
+
+    /* Card */
+    --card-gap:      var(--gap-md);
+    --card-inner:  var(--inner-lg);
+    --card-caption-gap: var(--gap-sm);
+    --card-icon-size: var(--size-lg);
+
+    /* Faq */
+    --faq-title-gap:   var(--gap-md);
+    --faq-gap:         var(--gap-md);
+    --faq-inner:     var(--inner-md);
+    --faq-caption-gap: var(--gap-sm);
+
+    /* Steps */
+    --step-gap: var(--gap-sm);
+}
+
+@media (min-width: 960px) {
+    :root {
+        /* Section */
+        --section-gap:       var(--gap-2xl);
+        --section-title-gap: var(--gap-xl);
+
+        /* Card */
+        --card-gap:         var(--gap-xl);
+        --card-inner:     var(--inner-xl);
+        --card-caption-gap: var(--gap-xs);
+        --card-icon-size:   var(--size-md);
+
+        /* Faq */
+        --faq-title-gap: var(--gap-lg);
+
+        /* Steps */
+        --step-gap: var(--gap-md);
+    }
+}
