@@ -131,7 +131,7 @@
     --radius-full: 50%;
 
     /* Container */
-    --content-min: 375px;
+    --content-min: 300px;
     --content-max: 1032px;
     --container-padding: var(--inner-xl);
 
@@ -401,4 +401,22 @@ a {
 }
 
 
+/* =========================================
+   CONTAINER-UTIL CLASS
+   ========================================= */
 
+.container {
+    width: 100%;
+    min-width: var(--content-min);
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: var(--container-padding);
+    overflow: visible;
+}
+
+@media (max-width: 300px) {
+    .container {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+}
