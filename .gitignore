@@ -1,0 +1,12 @@
+.idea/
+*.iml
+.idea_modules/
+out/
+
+node_modules/
+
+*.log
+
+.env
+.env.*
+!.env.example
