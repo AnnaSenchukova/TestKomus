@@ -126,7 +126,8 @@
     --inner-sm: var(--unit-3-5);
     --inner-md:     var(--unit-5);
     --inner-lg: var(--unit-2-5);
-    --inner-xl:     var(--unit-6);
+    --inner-xl: var(--unit-5);
+    --inner-xxl: var(--unit-6);
 
     /* Radius */
     --radius-sm: var(--unit-1-5);
@@ -135,7 +136,7 @@
 
     /* Container */
     --content-min: 300px;
-    --content-max: calc(984px + (2 * (var(--inner-xl))));
+    --content-max: calc(984px + (2 * (var(--inner-xxl))));
     --container-padding: 0 var(--inner-xl);
 
     /* Section */
@@ -147,7 +148,7 @@
 
     /* Card */
     --card-gap:      var(--gap-md);
-    --card-inner:  var(--inner-lg);
+    --card-inner:  var(--inner-xl);
     --card-caption-gap: var(--gap-sm);
     --card-icon-size: var(--size-lg);
 
@@ -169,7 +170,7 @@
 
         /* Card */
         --card-gap:         var(--gap-xl);
-        --card-inner:     var(--inner-xl);
+        --card-inner:     var(--inner-xxl);
         --card-caption-gap: var(--gap-xs);
         --card-icon-size:   var(--size-md);
 
@@ -717,4 +718,79 @@ a {
         margin-bottom: 0;
     }
 }
+
+/* =========================================
+   MOTIVATION - BLOCK
+   ========================================= */
+.motivation__list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: var(--card-gap);
+}
+
+.motivation__item {
+    position: relative;
+
+    padding: var(--card-inner);
+
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-motivation-card);
+}
+
+.motivation__caption {
+    margin-bottom: var(--card-caption-gap);
+    padding-top: 60px;
+}
+
+.motivation__item::before {
+    content: "";
+    position: absolute;
+    top: var(--card-inner);
+    left: var(--card-inner);
+
+    display: block;
+    width: var(--size-xl);
+    height: var(--size-xl);
+
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: contain;
+}
+
+.motivation__item--support::before {
+    background-image: url("../img/motivation-support.svg");
+}
+
+.motivation__item--quality::before {
+    background-image: url("../img/motivation-quality.svg");
+}
+
+.motivation__item--trust::before {
+    background-image: url("../img/motivation-trust.svg");
+}
+
+@media (min-width: 760px) {
+    .motivation__list {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .motivation__item {
+        width: 30%;
+        max-width: 312px;
+        flex-grow: 1;
+    }
+
+    .motivation__item::before {
+        width: var(--size-lg);
+        height: var(--size-lg);
+    }
+
+    .motivation__caption {
+        padding-top: 52px;
+    }
+}
+
+
 
