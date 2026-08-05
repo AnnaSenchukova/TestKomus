@@ -277,10 +277,20 @@ a {
     margin: 0;
 }
 
+.font--hiidden {
+    font-size: 0;
+}
+
 .font--display {
     font-family: var(--font-display);
 
     color: var(--color-font-display);
+}
+
+.font--body {
+    font-family: var(--font-body);
+
+    color: var(--color-font-body);
 }
 
 .font--size-heading {
@@ -307,24 +317,17 @@ a {
     line-height: 22px;
 }
 
-.font--body {
-    font-family: var(--font-body);
-
-    color: var(--color-font-body);
-}
-
-.font--size-body {
+.font--size-description {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
 }
 
-.font--accent-body {
-    font-family: var(--font-display);
+.font--accent-description {
     font-weight: 600;
 }
 
-.font--info {
+.font--size-info {
     font-weight: 400;
     font-size: 13px;
     line-height: 15px;
@@ -332,7 +335,7 @@ a {
     color: var(--color-font-link);
 }
 
-.font--number {
+.font--size-number {
     font-weight: 700;
     font-size: 18px;
     line-height: 24px;
@@ -346,7 +349,21 @@ a {
     font-size: 16px;
     line-height: 22px;
 
-    color: var(--font-button);
+    color: var(--color-font-button);
+}
+
+.font--modal-title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+.font--modal-description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
 }
 
 @media (min-width: 960px) {
@@ -363,12 +380,23 @@ a {
         line-height: 32px;
     }
 
-    .font--size-body {
+    .font--size-description {
         line-height: 18px;
     }
 
-    .font--accent-body {
+    .font--accent-description {
         font-weight: 700;
+    }
+
+    .font--modal-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .font--modal-description {
+        line-height: 22px;
     }
 }
 
