@@ -277,10 +277,20 @@ a {
     margin: 0;
 }
 
+.font--hiidden {
+    font-size: 0;
+}
+
 .font--display {
     font-family: var(--font-display);
 
     color: var(--color-font-display);
+}
+
+.font--body {
+    font-family: var(--font-body);
+
+    color: var(--color-font-body);
 }
 
 .font--size-heading {
@@ -305,12 +315,6 @@ a {
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
-}
-
-.font--body {
-    font-family: var(--font-body);
-
-    color: var(--color-font-body);
 }
 
 .font--size-description {
@@ -348,6 +352,20 @@ a {
     color: var(--font-button);
 }
 
+.font--modal-title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+}
+
+.font--modal-description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
 @media (min-width: 960px) {
     .font--size-heading {
         font-weight: 600;
@@ -368,6 +386,17 @@ a {
 
     .font--accent-body {
         font-weight: 700;
+    }
+
+    .font--modal-title {
+        font-family: var(--font-display);
+        font-weight: 500;
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .font--modal-description {
+        line-height: 22px;
     }
 }
 
