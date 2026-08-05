@@ -313,18 +313,17 @@ a {
     color: var(--color-font-body);
 }
 
-.font--size-body {
+.font--size-description {
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
 }
 
-.font--accent-body {
-    font-family: var(--font-display);
+.font--accent-description {
     font-weight: 600;
 }
 
-.font--info {
+.font--size-info {
     font-weight: 400;
     font-size: 13px;
     line-height: 15px;
@@ -332,7 +331,7 @@ a {
     color: var(--color-font-link);
 }
 
-.font--number {
+.font--size-number {
     font-weight: 700;
     font-size: 18px;
     line-height: 24px;
