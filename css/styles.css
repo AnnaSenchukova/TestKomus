@@ -47,6 +47,7 @@
     /* Typography */
     --font-display: 'Montserrat', sans-serif;
     --font-body: 'Fira Sans', sans-serif;
+    --font-button: 'Fira Sans', sans-serif;
 
     /* Color Primitive */
     --dark-400: #28293D;
@@ -75,9 +76,10 @@
     --color-bg-page-button-focus: var(--accent-primary-action);
     --color-bg-modal-button-close: var(--dark-100);
 
-    --color-font-title: var(--dark-300);
-    --color-font-description: var(--dark-300);
+    --color-font-display: var(--dark-300);
+    --color-font-body: var(--dark-300);
     --color-font-button: var(--light-100);
+    --color-font-number: var(--light-100);
     --color-font-link: var(--accent-secondary);
 
     --color-border-button-focus: var(--accent-primary-fade);
@@ -265,4 +267,110 @@ a {
 
     overflow: hidden;
 }
+
+
+/* =========================================
+   TYPOGRAPHY-UTIL CLASS
+   ========================================= */
+
+.font {
+    margin: 0;
+}
+
+.font--display {
+    font-family: var(--font-display);
+
+    color: var(--color-font-display);
+}
+
+.font--size-heading {
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.font--size-title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.font--size-cta {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.font--size-caption {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.font--body {
+    font-family: var(--font-body);
+
+    color: var(--color-font-body);
+}
+
+.font--size-body {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.font--accent-body {
+    font-family: var(--font-display);
+    font-weight: 600;
+}
+
+.font--info {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+
+    color: var(--color-font-link);
+}
+
+.font--number {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+
+    color: var(--color-font-number);
+}
+
+.font--button {
+    font-family: var(--font-button);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+
+    color: var(--font-button);
+}
+
+@media (min-width: 960px) {
+    .font--size-heading {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 40px;
+    }
+
+    .font--size-title,
+    .font--size-cta {
+        font-weight: 600;
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .font--size-body {
+        line-height: 18px;
+    }
+
+    .font--accent-body {
+        font-weight: 700;
+    }
+}
+
+
 
