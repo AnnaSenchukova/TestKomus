@@ -136,8 +136,8 @@
     --container-padding: var(--inner-xl);
 
     /* Section */
-    --section-gap:        var(--gap-xl);
-    --section-title-gap:  var(--gap-md);
+    --page-section-gap:        var(--gap-xl);
+    --page-section-title-gap:  var(--gap-md);
 
     /* Button */
     --button-padding: var(--inner-sm) var(--inner-lg);
@@ -305,13 +305,13 @@ a {
     line-height: 24px;
 }
 
-.font--size-cta {
+.font--size-caption {
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
 }
 
-.font--size-caption {
+.font--size-slogan {
     font-weight: 700;
     font-size: 16px;
     line-height: 22px;
@@ -374,7 +374,7 @@ a {
     }
 
     .font--size-title,
-    .font--size-cta {
+    .font--size-slogan {
         font-weight: 600;
         font-size: 26px;
         line-height: 32px;
@@ -400,12 +400,19 @@ a {
     }
 }
 
-
 /* =========================================
-   CONTAINER-UTIL CLASS
+   PAGE-GLOBAL CLASS
    ========================================= */
 
-.container {
+.page {
+    background-color: var(--color-bg-page);
+}
+
+.page__section {
+    margin-bottom: var(--page-section-gap);
+}
+
+.page__container {
     width: 100%;
     min-width: var(--content-min);
     max-width: var(--content-max);
@@ -414,9 +421,17 @@ a {
     overflow: visible;
 }
 
+.page__title {
+    margin-bottom: var(--page-section-title-gap)
+}
+
 @media (max-width: 300px) {
-    .container {
+    .page__container {
         overflow-x: auto;
         overflow-y: hidden;
     }
 }
+
+/* =========================================
+   PAGE-GLOBAL CLASS
+   ========================================= */
