@@ -1,7 +1,7 @@
 'use strict'
 
-const OPEN_CLASS = 'is-open';
-const MOBILE_MQ = window.matchMedia('(max-width: 559px)');
+/* Modal */
+'use strict'
 
 const openers = document.querySelectorAll('[data-open-modal]');
 const closers = document.querySelectorAll('[data-close-modal]');
@@ -16,38 +16,16 @@ function openModal(id) {
         dialog.setAttribute('open', '');
     }
     document.body.classList.add('modal-open');
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => dialog.classList.add(OPEN_CLASS));
-    });
 }
 
 function closeModal(dialog) {
     if (!dialog) return;
-
-    const wrapper = dialog.querySelector('.modal__wrapper');
-    const isMobile = MOBILE_MQ.matches;
-
-    const finish = () => {
-        if (typeof dialog.close === 'function') {
-            dialog.close();
-        } else {
-            dialog.removeAttribute('open');
-        }
-        document.body.classList.remove('modal-open');
-    };
-
-    dialog.classList.remove(OPEN_CLASS);
-
-    if (isMobile && wrapper) {
-        wrapper.addEventListener('transitionend', function onEnd(e) {
-            if (e.propertyName !== 'transform') return;
-            wrapper.removeEventListener('transitionend', onEnd);
-            finish();
-        });
+    if (typeof dialog.close === 'function') {
+        dialog.close();
     } else {
-        finish();
+        dialog.removeAttribute('open');
     }
+    document.body.classList.remove('modal-open');
 }
 
 
@@ -70,16 +48,12 @@ document.querySelectorAll('dialog.modal').forEach((dialog) => {
     });
 
     dialog.addEventListener('close', () => {
-        dialog.classList.remove(OPEN_CLASS);
         document.body.classList.remove('modal-open');
     });
 });
 
 
-
 /* script faq */
-
-
     var answer = document.querySelectorAll('.faq__answer');
     var questionButtons = document.querySelectorAll('.faq__question');
 
