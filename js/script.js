@@ -130,3 +130,8 @@ document.querySelectorAll('dialog.modal').forEach((dialog) => {
         });
     });
 
+if (answer.length > 0 && questionButtons.length > 0) {
+    answerOpen(answer[0]);
+    buttonArrowOpen(questionButtons[0]);
+}
+
