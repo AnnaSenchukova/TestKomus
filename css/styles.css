@@ -1030,11 +1030,12 @@ body.modal-open {
 
         border-radius: var(--radius-md) var(--radius-md) 0 0;
 
-        transition: transform 2s ease;
+        transition: transform 1s ease;
     }
 
-    .modal[open] .modal__wrapper {
+    .modal.is-open .modal__wrapper {
         transform: translateY(0);
+        transition: transform 1s ease;
     }
 
 }
