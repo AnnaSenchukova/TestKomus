@@ -4,5 +4,5 @@
 Реализация тестового задания на нативном веб-стеке (HTML + CSS + JavaScript).
 *Файл normalize*  - подключен через html, статичный файл, последнее обновление 2018 года (v8.0.1)
 
-Опубликовано на GitHub Pages:
+Опубликовано на GitHub Pages: [https://annasenchukova.github.io/TestKomus/](https://annasenchukova.github.io/TestKomus/)
 
