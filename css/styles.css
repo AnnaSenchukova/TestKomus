@@ -960,7 +960,7 @@ body.modal-open {
 }
 
 .modal__button-close {
-    position: absolute;
+    position: fixed;
     top: var(--modal-inner);
     right: var(--modal-inner);
 
