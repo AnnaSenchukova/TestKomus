@@ -1034,10 +1034,6 @@ body.modal-open {
         transform: translate(0, 0);
     }
 
-    .modal-close .modal__wrapper {
-        transform: translate(-50%, 100%);
-    }
-
     .modal__button-close {
         top:0;
         left: 0;
