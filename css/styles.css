@@ -558,13 +558,14 @@ a {
    ========================================= */
 
 .process__list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--step-gap);
-    list-style: none;
-    counter-reset: item;
     padding: 0;
     margin: 0;
+
+    list-style: none;
+    counter-reset: item;
 }
 
 .process__step {
@@ -652,15 +653,11 @@ a {
 
 @media (min-width: 560px) {
     .process__list {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .process__step {
-        flex-shrink: 1;
         justify-content: flex-start;
-        width: 48%;
         min-height: 0;
         margin-bottom: 0;
         padding-top: calc(116px - var(--size-md));
@@ -683,11 +680,15 @@ a {
 }
 
 @media (min-width: 760px) {
+    .process__list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
     .process__step {
-        width: 23%;
         max-width: 228px;
     }
 }
+
 
 
 /* =========================================
@@ -897,6 +898,11 @@ a {
     margin-top: var(--gap-xs);
 }
 
+
+
+/* =========================================
+   MODAL - BLOCK
+   ========================================= */
 
 
 
