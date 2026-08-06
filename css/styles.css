@@ -723,9 +723,8 @@ a {
    MOTIVATION - BLOCK
    ========================================= */
 .motivation__list {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: var(--card-gap);
 }
 
@@ -734,8 +733,13 @@ a {
 
     padding: var(--card-inner);
 
+
     border-radius: var(--radius-md);
     background-color: var(--color-bg-motivation-card);
+}
+
+.motivation__item:last-child {
+    grid-column: 1 / -1;
 }
 
 .motivation__caption {
@@ -771,15 +775,12 @@ a {
 }
 
 @media (min-width: 760px) {
-    .motivation__list {
-        flex-direction: row;
-        justify-content: space-between;
+    .motivation__item {
+        flex-grow: 1;
     }
 
-    .motivation__item {
-        width: 30%;
-        max-width: 312px;
-        flex-grow: 1;
+    .motivation__item:last-child {
+        grid-column: auto;
     }
 
     .motivation__item::before {
