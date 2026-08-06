@@ -75,7 +75,10 @@
     --color-bg-page-button-hover: var(--accent-primary-darker);
     --color-bg-page-button-active: var(--accent-primary-action);
     --color-bg-page-button-focus: var(--accent-primary-action);
+    --color-bg-modal: var(--light-100);
     --color-bg-modal-button-close: var(--dark-100);
+    --color-bg-modal-button-close-hover: var(--accent-primary);
+    --color-bg-modal-button-close-active: var(--accent-primary);
 
     --color-font-display: var(--dark-300);
     --color-font-body: var(--dark-300);
@@ -85,11 +88,11 @@
 
     --color-border-button-focus: var(--accent-primary-fade);
 
-    --color-overlay-page-modal-mobiile: color-mix(in srgb, var(--dark-300) 90%, transparent);
-    --color-overlay-page-modal-desktop: color-mix(in srgb, var(--dark-300) 70%, transparent);
+    --color-overlay-page-modal: color-mix(in srgb, var(--dark-300) 90%, transparent);
 
     /*Shadow*/
-    --shadow-modal: 0 -8px 8px color-mix(in srgb, var(--dark-400) 80%, transparent);
+    --shadow-modal: 0 2px 8px color-mix(in srgb, var(--dark-400) 4%, transparent), 0 16px 24px color-mix(in srgb, var(--dark-200) 16%, transparent);
+
 
     /* Primitive scale — шаг 4*/
     --unit-1:  4px;
@@ -160,10 +163,20 @@
 
     /* Steps */
     --step-gap: var(--gap-md);
+
+     /* Modal */
+    --modal-inner: var(--inner-xxl);
+    --modal-gap-title: var(--gap-lg);
+    --modal-gap-paragraph: var(--gap-sm);
 }
 
 @media (min-width: 960px) {
     :root {
+        /* Modal */
+        --modal-gap-title: var(--gap-xl);
+        --shadow-modal: 0 -8px 8px color-mix(in srgb, var(--dark-400) 8%, transparent);
+        --color-overlay-page-modal: color-mix(in srgb, var(--dark-300) 70%, transparent);
+
         /* Section */
         --section-gap:       var(--gap-2xl);
         --section-title-gap: var(--gap-xl);
@@ -281,7 +294,7 @@ a {
     margin: 0;
 }
 
-.font--hiidden {
+.font--hidden {
     font-size: 0;
 }
 
@@ -903,6 +916,128 @@ a {
 /* =========================================
    MODAL - BLOCK
    ========================================= */
+
+.modal {
+    position: relative;
+
+    max-width: none;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    background-color: transparent;
+    color: inherit;
+
+    inset: 0;
+    overflow: hidden;
+}
+
+.modal::backdrop {
+    background-color: var(--color-overlay-page-modal);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.modal__wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: min(630px, calc(100% - var(--gap-xl)));
+    max-height: calc(100vh - var(--gap-2xl));
+    padding: var(--modal-inner);
+
+    background-color: var(--color-bg-modal);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-modal);
+
+    overflow-y: auto;
+}
+
+.modal__button-close {
+    position: absolute;
+    top: var(--modal-inner);
+    right: var(--modal-inner);
+
+    width: var(--size-md);
+    height: var(--size-md);
+    padding: 0;
+}
+
+.modal__button-close::before,
+.modal__button-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 2px;
+    background-color: var(--color-bg-modal-button-close);
+    border-radius: 2px;
+}
+
+.modal__button-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal__button-close::after  {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.modal__button-close:hover::before,
+.modal__button-close:hover::after {
+    background-color:var(--color-bg-modal-button-close-hover);
+}
+
+.modal__button-close:active::before,
+.modal__button-close:active::after {
+    background-color:var(--color-bg-modal-button-close-active);
+}
+
+.modal__title {
+    width: 90%;
+    margin-bottom: var(--modal-gap-title);
+}
+
+.modal__description + .modal__description {
+    margin-top: var(--modal-gap-paragraph);
+}
+
+@media (min-width: 560px) {
+    .modal__wrapper {
+        border-radius: var(--radius-md);
+    }
+}
+
+
+@media (max-width: 559px) {
+    .modal__wrapper {
+        position: absolute;
+        inset: auto 0 0 0;
+        top: auto;
+        left: 0;
+        transform: translateY(100%);
+
+        width: 100%;
+        max-height: 85vh;
+        margin: 0;
+
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+
+        transition: transform 2s ease;
+    }
+
+    .modal[open] .modal__wrapper {
+        transform: translateY(0);
+    }
+
+}
 
 
 
