@@ -56,7 +56,7 @@ if (answer.length > 0 && questionButtons.length > 0) {
     buttonArrowOpen(questionButtons[0]);
 }
 
-/*script modal*/
+/*modal fallback-polyfill */
 
 if (!('commandForElement' in HTMLButtonElement.prototype)) {
     document.addEventListener('click', (e) => {
@@ -73,4 +73,61 @@ document.querySelectorAll('.modal').forEach((dialog) => {
     dialog.addEventListener('click', (e) => {
         if (e.target === dialog) dialog.close();
     });
+});
+
+
+/* modal swipe */
+
+const MOBILE = matchMedia('(max-width: 559px)');
+const CLOSE_DISTANCE_RATIO = 0.25;
+const CLOSE_VELOCITY = 0.5;
+
+document.querySelectorAll('.modal').forEach((dialog) => {
+    const wrapper = dialog.querySelector('.modal__wrapper');
+    const handle = dialog.querySelector('.modal__header');
+
+    if (!wrapper || !handle) return;
+
+    let startY = 0;
+    let startTime = 0;
+    let delta = 0;
+
+    const resetDrag = () => {
+        wrapper.classList.remove('is-dragging');
+        wrapper.style.removeProperty('--drag');
+    };
+
+    handle.addEventListener('pointerdown', (event) => {
+        if (!MOBILE.matches || !dialog.open || !event.isPrimary) return;
+
+        startY = event.clientY;
+        startTime = event.timeStamp;
+        delta = 0;
+
+        wrapper.classList.add('is-dragging');
+        handle.setPointerCapture(event.pointerId);
+    });
+
+    handle.addEventListener('pointermove', (event) => {
+        if (!handle.hasPointerCapture(event.pointerId)) return;
+
+        delta = Math.max(0, event.clientY - startY);
+        wrapper.style.setProperty('--drag', `${delta}px`);
+    });
+
+    handle.addEventListener('pointerup', (event) => {
+        if (!handle.hasPointerCapture(event.pointerId)) return;
+
+        const elapsed = Math.max(event.timeStamp - startTime, 1);
+        const velocity = delta / elapsed;
+        const closeDistance = wrapper.offsetHeight * CLOSE_DISTANCE_RATIO;
+
+        resetDrag();
+
+        if (delta > closeDistance || velocity > CLOSE_VELOCITY) {
+            dialog.close();
+        }
+    });
+
+    handle.addEventListener('pointercancel', resetDrag);
 });

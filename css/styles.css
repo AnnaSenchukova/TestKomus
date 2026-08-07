@@ -999,6 +999,7 @@ html:has(.modal[open]) {
     box-shadow: var(--shadow-modal);
 }
 
+
 .modal__header {
     position: relative;
 
@@ -1070,24 +1071,6 @@ html:has(.modal[open]) {
     opacity: .4;
 }
 
-@media (max-width: 559px) {
-    .modal__wrapper {
-        transform: translateY(100%);
-
-        transition: transform var(--modal-duration) ease-out;
-    }
-
-    .modal[open] .modal__wrapper {
-        transform: translateY(0);
-    }
-
-    @starting-style {
-        .modal[open] .modal__wrapper {
-            transform: translateY(100%);
-        }
-    }
-}
-
 @media (min-width: 560px) {
     .modal__wrapper {
         inset: 0;
@@ -1150,6 +1133,41 @@ html:has(.modal[open]) {
     .modal__title {
         order: -1;
     }
+}
+
+@media (max-width: 559px) {
+    .modal__wrapper {
+        translate: 0 100%;
+        transition: translate var(--modal-duration) ease-out;
+    }
+
+    .modal[open] .modal__wrapper {
+        translate: 0 var(--drag, 0px);
+    }
+
+    .modal__wrapper.is-dragging {
+        transition: none;
+    }
+
+    @starting-style {
+        .modal[open] .modal__wrapper { translate: 0 100%; }
+    }
+
+    .modal__header {
+        touch-action: pan-x;
+        user-select: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .modal__header {
+            cursor: grab;
+        }
+
+        .modal__wrapper.is-dragging .modal__header {
+            cursor: grabbing;
+        }
+    }
+
 }
 
 
