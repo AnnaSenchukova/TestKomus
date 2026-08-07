@@ -1,76 +1,5 @@
 'use strict'
 
-/* Modal */
-'use strict'
-
-const openers = document.querySelectorAll('[data-open-modal]');
-const closers = document.querySelectorAll('[data-close-modal]');
-
-function openModal(id) {
-    const dialog = document.getElementById(id);
-    if (!dialog) return;
-
-    if (typeof dialog.showModal === 'function') {
-        dialog.showModal();
-    } else {
-        dialog.setAttribute('open', '');
-    }
-    document.body.classList.remove('modal-close');
-    document.body.classList.add('modal-open');
-}
-
-function closeModal(dialog) {
-    if (!dialog) return;
-
-    document.body.classList.remove('modal-open');
-    document.body.classList.add('modal-close');
-
-    if (typeof dialog.close === 'function') {
-        dialog.close();
-    } else {
-        dialog.removeAttribute('open');
-    }
-}
-
-
-openers.forEach((btn) => {
-    btn.addEventListener('click', () => openModal(btn.dataset.openModal));
-});
-
-
-closers.forEach((btn) => {
-    btn.addEventListener('click', () => closeModal(btn.closest('dialog')));
-});
-
-
-document.querySelectorAll('dialog.modal').forEach((dialog) => {
-    dialog.addEventListener('click', (e) => {
-        const wrapper = dialog.querySelector('.modal__wrapper');
-        if (wrapper && !wrapper.contains(e.target)) {
-            closeModal(dialog);
-        }
-    });
-
-    const wrapper = dialog.querySelector('.modal__wrapper');
-    if (wrapper) {
-        wrapper.addEventListener('transitionend', (e) => {
-            if (e.propertyName !== 'transform') return;
-            if (!dialog.open && document.body.classList.contains('modal-close')) {
-                document.body.classList.remove('modal-close');
-            }
-        });
-    }
-
-    dialog.addEventListener('close', () => {
-        document.body.classList.remove('modal-open');
-
-        if (!wrapper || getComputedStyle(wrapper).transitionDuration === '0s') {
-            document.body.classList.remove('modal-close');
-        }
-    });
-});
-
-
 /* script faq */
     var answer = document.querySelectorAll('.faq__answer');
     var questionButtons = document.querySelectorAll('.faq__question');
@@ -127,3 +56,78 @@ if (answer.length > 0 && questionButtons.length > 0) {
     buttonArrowOpen(questionButtons[0]);
 }
 
+/*modal fallback-polyfill */
+
+if (!('commandForElement' in HTMLButtonElement.prototype)) {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[command="show-modal"], [command="close"]');
+        if (!btn) return;
+        const dialog = document.getElementById(btn.getAttribute('commandfor'));
+        if (!dialog) return;
+        e.preventDefault();
+        btn.getAttribute('command') === 'show-modal' ? dialog.showModal() : dialog.close();
+    });
+}
+
+document.querySelectorAll('.modal').forEach((dialog) => {
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+    });
+});
+
+
+/* modal swipe */
+
+const MOBILE = matchMedia('(max-width: 559px)');
+const CLOSE_DISTANCE_RATIO = 0.25;
+const CLOSE_VELOCITY = 0.5;
+
+document.querySelectorAll('.modal').forEach((dialog) => {
+    const wrapper = dialog.querySelector('.modal__wrapper');
+    const handle = dialog.querySelector('.modal__header');
+
+    if (!wrapper || !handle) return;
+
+    let startY = 0;
+    let startTime = 0;
+    let delta = 0;
+
+    const resetDrag = () => {
+        wrapper.classList.remove('is-dragging');
+        wrapper.style.removeProperty('--drag');
+    };
+
+    handle.addEventListener('pointerdown', (event) => {
+        if (!MOBILE.matches || !dialog.open || !event.isPrimary) return;
+
+        startY = event.clientY;
+        startTime = event.timeStamp;
+        delta = 0;
+
+        wrapper.classList.add('is-dragging');
+        handle.setPointerCapture(event.pointerId);
+    });
+
+    handle.addEventListener('pointermove', (event) => {
+        if (!handle.hasPointerCapture(event.pointerId)) return;
+
+        delta = Math.max(0, event.clientY - startY);
+        wrapper.style.setProperty('--drag', `${delta}px`);
+    });
+
+    handle.addEventListener('pointerup', (event) => {
+        if (!handle.hasPointerCapture(event.pointerId)) return;
+
+        const elapsed = Math.max(event.timeStamp - startTime, 1);
+        const velocity = delta / elapsed;
+        const closeDistance = wrapper.offsetHeight * CLOSE_DISTANCE_RATIO;
+
+        resetDrag();
+
+        if (delta > closeDistance || velocity > CLOSE_VELOCITY) {
+            dialog.close();
+        }
+    });
+
+    handle.addEventListener('pointercancel', resetDrag);
+});

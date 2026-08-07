@@ -110,6 +110,7 @@
     --unit-3-5: 14px;
 
     /* Size */
+    --size-xs: var(--unit-5);
     --size-sm: var(--unit-6);
     --size-md: var(--unit-8);
     --size-lg: var(--unit-10);
@@ -167,6 +168,7 @@
     --modal-inner: var(--inner-xxl);
     --modal-gap-title: var(--gap-lg);
     --modal-gap-paragraph: var(--gap-sm);
+    --modal-duration: 0.5s;
 }
 
 @media (min-width: 960px) {
@@ -207,6 +209,7 @@
 
 html {
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
 }
 
 html,
@@ -260,6 +263,20 @@ button {
 
 a {
     text-decoration: none;
+}
+
+dialog {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    max-width: none;
+    max-height: none;
+}
+
+dialog::backdrop {
+    background-color: transparent;
 }
 
 
@@ -463,7 +480,7 @@ a {
     border-radius: var(--radius-sm);
     background-color: var(--color-bg-page-button-default);
 
-    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .button:focus {
@@ -879,23 +896,31 @@ a {
 }
 
 .faq__answer {
-    display: none;
-    padding-bottom: var(--faq-inner);
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+
+    transition: grid-template-rows 0.35s ease;
 }
 .faq__answer--active {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--nojs {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--open {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--close {
-    display: none;
+    grid-template-rows: 0fr;
+}
+
+.faq__answer-inner {
+    overflow: hidden;
+    min-height: 0;
 }
 
 .faq__answer-list {
@@ -911,61 +936,114 @@ a {
 }
 
 
-
 /* =========================================
    MODAL - BLOCK
    ========================================= */
+html:has(.modal[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+}
 
 .modal {
     position: fixed;
-    inset: 0;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 
-    width: 100vw;
-    height: 100vh;
+    box-sizing: border-box;
+
+    width: 100%;
+    height: 100svh;
     max-width: none;
     max-height: none;
-    margin: 0;
     padding: 0;
 
-    border: none;
+    border: 0;
     background-color: transparent;
-    color: inherit;
 
     overflow: hidden;
+    display: none;
+
+    transition: display var(--modal-duration) allow-discrete,
+    overlay var(--modal-duration) allow-discrete;
+}
+
+.modal[open] {
+    display: block;
 }
 
 .modal::backdrop {
+    background-color: transparent;
+
+    transition: background-color var(--modal-duration) ease,
+    overlay var(--modal-duration) allow-discrete,
+    display var(--modal-duration) allow-discrete;
+}
+
+.modal[open]::backdrop {
     background-color: var(--color-overlay-page-modal);
 }
 
-body.modal-open {
-    overflow: hidden;
+@starting-style {
+    .modal[open]::backdrop {
+        background-color: transparent;
+    }
 }
 
 .modal__wrapper {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    bottom: 0;
 
-    width: min(630px, calc(100% - var(--gap-xl)));
-    max-height: calc(100vh - var(--gap-2xl));
-    padding: var(--modal-inner);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    max-height: calc(100svh - 178px);
 
     background-color: var(--color-bg-modal);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
     box-shadow: var(--shadow-modal);
+}
+
+
+.modal__header {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--gap-lg);
+    flex-shrink: 0;
+
+    padding: 0 var(--modal-inner) var(--modal-gap-paragraph);
+}
+
+.modal__body {
+    padding: 0 var(--modal-inner);
+    padding-bottom: max(var(--modal-inner), env(safe-area-inset-bottom));
 
     overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.modal__title {
+    order: 0;
+
+    width: 90%;
+}
+
+.modal__description + .modal__description {
+    margin-top: var(--modal-gap-paragraph);
 }
 
 .modal__button-close {
-    position: fixed;
-    top: var(--modal-inner);
-    right: var(--modal-inner);
+    position: relative;
 
-    width: var(--size-md);
-    height: var(--size-md);
+    width: 100%;
+    height: var(--size-xs);
     padding: 0;
 }
 
@@ -975,88 +1053,129 @@ body.modal-open {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 18px;
-    height: 2px;
+
+    width: 135px;
+    height: 5px;
+
     background-color: var(--color-bg-modal-button-close);
     border-radius: 2px;
-    opacity: 10%;
+    opacity: .1;
+
+    transition: opacity .3s ease;
 }
 
 .modal__button-close::before {
-    transform: translate(-50%, -50%) rotate(45deg);
+    transform: translate(-50%, -50%) rotate(0deg);
 }
 
-.modal__button-close::after  {
-    transform: translate(-50%, -50%) rotate(-45deg);
+.modal__button-close::after {
+    display: none;
 }
 
 .modal__button-close:hover::before,
 .modal__button-close:hover::after,
 .modal__button-close:active::before,
 .modal__button-close:active::after {
-    opacity: 40%;
-}
-
-.modal__title {
-    width: 90%;
-    margin-bottom: var(--modal-gap-title);
-}
-
-.modal__description + .modal__description {
-    margin-top: var(--modal-gap-paragraph);
+    opacity: .4;
 }
 
 @media (min-width: 560px) {
     .modal__wrapper {
+        inset: 0;
+        margin: auto;
+        height: fit-content;
+
+        width: min(630px, calc(100% - var(--gap-xl)));
+        max-height: calc(100svh - var(--gap-2xl));
+        padding: var(--modal-inner) 0;
+
         border-radius: var(--radius-md);
-    }
-}
 
+        opacity: 0;
+        scale: .96;
 
-@media (max-width: 559px) {
-    .modal__wrapper {
-        top: auto;
-        bottom: 0;
-        left: 0;
-        transform: translate(0, 100%);
-
-        width: 100%;
-        max-height: 85vh;
-        margin: 0;
-        padding-top: calc(var(--gap-lg) +  var(--gap-lg));
-
-        border-radius: var(--radius-md) var(--radius-md) 0 0;
-
-        transition: transform 1s ease;
+        transition: opacity .2s ease,
+        scale .2s ease;
     }
 
-    .modal-open .modal__wrapper {
-        transform: translate(0, 0);
+    .modal[open] .modal__wrapper {
+        opacity: 1;
+        scale: 1;
+    }
+
+    @starting-style {
+        .modal[open] .modal__wrapper {
+            opacity: 0;
+            scale: 0.96;
+        }
+    }
+
+    .modal__header {
+        padding: 0 var(--modal-inner) var(--modal-gap-paragraph);
+    }
+
+    .modal__body {
+        padding-bottom: var(--modal-inner);
     }
 
     .modal__button-close {
-        top:0;
-        left: 0;
-        width: 100%;
-        height: 21px;
+        width: var(--size-md);
+        height: var(--size-md);
+    }
+
+    .modal__button-close::before,
+    .modal__button-close::after {
+        width: 18px;
+        height: 2px;
     }
 
     .modal__button-close::before {
-        width: 135px;
-        height: 5px;
-
-        transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(45deg);
     }
 
+    .modal__button-close::after {
+        display: block;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-    .modal__button-close::after  {
-        display: none;
+    .modal__title {
+        order: -1;
+    }
+}
+
+@media (max-width: 559px) {
+    .modal__wrapper {
+        translate: 0 100%;
+        transition: translate var(--modal-duration) ease-out;
+    }
+
+    .modal[open] .modal__wrapper {
+        translate: 0 var(--drag, 0px);
+    }
+
+    .modal__wrapper.is-dragging {
+        transition: none;
+    }
+
+    @starting-style {
+        .modal[open] .modal__wrapper { translate: 0 100%; }
+    }
+
+    .modal__header {
+        touch-action: pan-x;
+        user-select: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .modal__header {
+            cursor: grab;
+        }
+
+        .modal__wrapper.is-dragging .modal__header {
+            cursor: grabbing;
+        }
     }
 
 }
-
-
-
-
 
 
