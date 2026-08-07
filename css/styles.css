@@ -896,23 +896,31 @@ dialog::backdrop {
 }
 
 .faq__answer {
-    display: none;
-    padding-bottom: var(--faq-inner);
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+
+    transition: grid-template-rows 0.35s ease;
 }
 .faq__answer--active {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--nojs {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--open {
-    display: block;
+    grid-template-rows: 1fr;
 }
 
 .faq__answer--close {
-    display: none;
+    grid-template-rows: 0fr;
+}
+
+.faq__answer-inner {
+    overflow: hidden;
+    min-height: 0;
 }
 
 .faq__answer-list {
