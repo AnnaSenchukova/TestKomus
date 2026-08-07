@@ -168,6 +168,7 @@
     --modal-inner: var(--inner-xxl);
     --modal-gap-title: var(--gap-lg);
     --modal-gap-paragraph: var(--gap-sm);
+    --modal-duration: 0.5s;
 }
 
 @media (min-width: 960px) {
@@ -927,28 +928,48 @@ dialog::backdrop {
 }
 
 
-
 /* =========================================
    MODAL - BLOCK
    ========================================= */
+html:has(.modal[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+}
 
 .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    box-sizing: border-box;
+
     width: 100%;
-    height: 100vh;
+    height: 100svh;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+
+    border: 0;
+    background-color: transparent;
 
     overflow: hidden;
     display: none;
+
+    transition: display var(--modal-duration) allow-discrete,
+    overlay var(--modal-duration) allow-discrete;
 }
 
 .modal[open] {
-    display: grid;
-    place-items: end center;
+    display: block;
 }
 
 .modal::backdrop {
     background-color: transparent;
 
-    transition: background-color .3s ease;
+    transition: background-color var(--modal-duration) ease,
+    overlay var(--modal-duration) allow-discrete,
+    display var(--modal-duration) allow-discrete;
 }
 
 .modal[open]::backdrop {
@@ -962,14 +983,16 @@ dialog::backdrop {
 }
 
 .modal__wrapper {
-    position: relative;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 
     display: flex;
     flex-direction: column;
     width: 100%;
     min-width: 0;
-    max-height: calc(100vh - 178px);
     min-height: 0;
+    max-height: calc(100svh - 178px);
 
     background-color: var(--color-bg-modal);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -991,9 +1014,20 @@ dialog::backdrop {
 
 .modal__body {
     padding: 0 var(--modal-inner);
+    padding-bottom: max(var(--modal-inner), env(safe-area-inset-bottom));
 
     overflow-y: auto;
     overscroll-behavior: contain;
+}
+
+.modal__title {
+    order: 0;
+
+    width: 90%;
+}
+
+.modal__description + .modal__description {
+    margin-top: var(--modal-gap-paragraph);
 }
 
 .modal__button-close {
@@ -1016,16 +1050,16 @@ dialog::backdrop {
 
     background-color: var(--color-bg-modal-button-close);
     border-radius: 2px;
-    opacity: 0.1;
+    opacity: .1;
 
-    transition: opacity 0.3s ease;
+    transition: opacity .3s ease;
 }
 
 .modal__button-close::before {
     transform: translate(-50%, -50%) rotate(0deg);
 }
 
-.modal__button-close::after  {
+.modal__button-close::after {
     display: none;
 }
 
@@ -1033,36 +1067,64 @@ dialog::backdrop {
 .modal__button-close:hover::after,
 .modal__button-close:active::before,
 .modal__button-close:active::after {
-    opacity: 0.4;
+    opacity: .4;
 }
 
-.modal__title {
-    order: 0;
+@media (max-width: 559px) {
+    .modal__wrapper {
+        transform: translateY(100%);
 
-    width: 90%;
-}
+        transition: transform var(--modal-duration) ease-out;
+    }
 
-.modal__description + .modal__description {
-    margin-top: var(--modal-gap-paragraph);
+    .modal[open] .modal__wrapper {
+        transform: translateY(0);
+    }
+
+    @starting-style {
+        .modal[open] .modal__wrapper {
+            transform: translateY(100%);
+        }
+    }
 }
 
 @media (min-width: 560px) {
-    .modal[open] {
-        place-items: center;
-    }
-
     .modal__wrapper {
+        inset: 0;
+        margin: auto;
+        height: fit-content;
+
         width: min(630px, calc(100% - var(--gap-xl)));
-        max-height: calc(100vh - var(--gap-2xl));
+        max-height: calc(100svh - var(--gap-2xl));
         padding: var(--modal-inner) 0;
-        margin: var(--modal-inner);
 
         border-radius: var(--radius-md);
+
+        opacity: 0;
+        scale: .96;
+
+        transition: opacity .2s ease,
+        scale .2s ease;
+    }
+
+    .modal[open] .modal__wrapper {
+        opacity: 1;
+        scale: 1;
+    }
+
+    @starting-style {
+        .modal[open] .modal__wrapper {
+            opacity: 0;
+            scale: 0.96;
+        }
     }
 
     .modal__header {
-        padding: 0 var(--modal-inner);
-        padding-bottom: var(--modal-gap-paragraph);
+        padding: 0 var(--modal-inner) var(--modal-gap-paragraph);
+    }
+
+    .modal__body {
+        padding-bottom: var(--modal-inner);
     }
 
     .modal__button-close {
@@ -1080,7 +1142,7 @@ dialog::backdrop {
         transform: translate(-50%, -50%) rotate(45deg);
     }
 
-    .modal__button-close::after  {
+    .modal__button-close::after {
         display: block;
         transform: translate(-50%, -50%) rotate(-45deg);
     }
@@ -1089,27 +1151,5 @@ dialog::backdrop {
         order: -1;
     }
 }
-
-
-
-
-
-/* =========================================
-   MODAL - ANIMATION WITH JS
-   ========================================= */
-
-@media (max-width: 559px) {
-    .js .modal__wrapper {
-        transform: translateY(100%);
-        transition: transform 0.4s cubic-bezier(.32, .72, 0, 1);
-    }
-
-    .js .modal.modal--visible .modal__wrapper {
-        transform: translateY(0);
-    }
-
-}
-
-
 
 

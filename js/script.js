@@ -56,3 +56,21 @@ if (answer.length > 0 && questionButtons.length > 0) {
     buttonArrowOpen(questionButtons[0]);
 }
 
+/*script modal*/
+
+if (!('commandForElement' in HTMLButtonElement.prototype)) {
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[command="show-modal"], [command="close"]');
+        if (!btn) return;
+        const dialog = document.getElementById(btn.getAttribute('commandfor'));
+        if (!dialog) return;
+        e.preventDefault();
+        btn.getAttribute('command') === 'show-modal' ? dialog.showModal() : dialog.close();
+    });
+}
+
+document.querySelectorAll('.modal').forEach((dialog) => {
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) dialog.close();
+    });
+});
